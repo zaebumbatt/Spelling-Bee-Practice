@@ -20,6 +20,6 @@ Create virtual environment.
 
 Run Command:
 
-	python pip install -r requirements.txt
+	pip install -r requirements.txt
 	
 	flask run
