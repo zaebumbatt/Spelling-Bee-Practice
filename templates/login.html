@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+    <span id="validate" style='color: white;'><h4>Empty</h4></span>
+    <form action="/login" method="post" onsubmit="return validateUsername()">
+        <div class="form-group">
+            <input id="username" autocomplete="off" class="form-control" name="username" placeholder="Username" type="text" autofocus required>
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="password" placeholder="Password" type="password" required>
+        </div>
+        <button class="btn btn-info" type="submit">Log In</button>
+    </form>
+    <script>
+        function validateUsername(){
+            var users = JSON.parse({{ users | tojson }})
+            var username = document.getElementById('username').value;
+            if (users.includes(username)){
+                return true;
+            } else {
+                document.getElementById("validate").innerHTML = "<span style='color: red;'><h4>Username doesn't exists!</h4></span>";
+                return false;
+            }
+        }
+    </script>
+{% endblock %}

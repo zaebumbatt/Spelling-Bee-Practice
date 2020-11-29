@@ -1,0 +1,149 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+<!--    <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">-->
+      <h1 class="display-4">Spelling Bee Practice</h1>
+      <p class="lead">Train yourself for Spelling Bee competition!</p>
+        <div class="form-group">
+            <div class="dropdown">
+              <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Choose level:
+              </button>
+              <div class="dropdown-menu" id="menu1" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" id="item1" href="#">Beginner</a>
+                <a class="dropdown-item" id="item2"href="#">Intermediate</a>
+                <a class="dropdown-item" id="item3" href="#">Advanced</a>
+              </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <button onclick="sayWord(); return false;" type="submit" class="btn btn-info">Spell a word</button>
+            <button onclick="showWord(); return false;" type="submit" class="btn btn-info">Hint</button>
+        </div>
+        <div class="form-group">
+            <div class="row justify-content-center">
+                <form id="wordForm">
+                    <div class="input-group">
+                      <input id="word" type="text" class="form-control" placeholder="Word" autofocus>
+                      <div class="input-group-append">
+                        <button onclick="checkAnswer(); return false;" type="submit" class="btn btn-info">Try</button>
+                      </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+<!--    </div>-->
+        <span id="validate" style='color: white;'><h4>Empty</h4></span>
+        <span id="wordHint" style='color: white;'><h4>Empty</h4></span>
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $(".alert").alert('close');
+            }, 5000);
+        });
+
+        var beginner = JSON.parse({{ beginner | tojson }})
+        var intermediate = JSON.parse({{ intermediate | tojson }})
+        var advanced = JSON.parse({{ advanced| tojson }})
+
+        var choose, word, words, difficulty;
+
+        $('#menu1 a').click(function(){
+            $('#dropdownMenuButton').html($(this).text() + '<span class="caret"></span>')
+            choose = $(this).text();
+            chooseLevel(choose);
+        })
+
+        function chooseLevel(level) {
+            if (level === 'Beginner') {
+                words = beginner;
+                difficulty = 'beginner';
+            }
+
+            if (level === 'Intermediate') {
+                words = intermediate;
+                difficulty = 'intermediate';
+            }
+
+            if (level === 'Advanced') {
+                words = advanced;
+                difficulty = 'advanced';
+            }
+            randomWord();
+            wordAutofocus();
+        }
+        function randomWord() {
+            word = words[Math.floor(Math.random() * words.length)];
+        }
+
+        function sayWord() {
+            if (typeof word == 'undefined'){
+                document.getElementById('wordHint').innerHTML = "<span style='color: black;'><h4>Please choose level!</h4></span>";
+            } else {
+                document.getElementById('wordHint').innerHTML = "<span style='color: white;'><h4>Empty</h4></span>";
+                document.getElementById('validate').innerHTML = "<span style='color: white;'><h4>Empty</h4></span>";
+                var msg = new SpeechSynthesisUtterance();
+                msg.text = word;
+                window.speechSynthesis.speak(msg);
+            }
+            wordAutofocus();
+        }
+
+        function showWord() {
+            if (typeof word == 'undefined') {
+                document.getElementById('wordHint').innerHTML = "<span style='color: black;'><h4>Please choose level!</h4></span>";
+            } else {
+                document.getElementById('wordHint').innerHTML = "<span style='color: black;'><h4>" + word + "</h4></span>";
+            }
+            wordAutofocus();
+        }
+
+        function checkAnswer() {
+            if (typeof word == 'undefined') {
+                document.getElementById('wordHint').innerHTML = "<span style='color: black;'><h4>Please choose level!</h4></span>";
+            } else {
+                var answer = document.getElementById('word').value;
+                if (answer == word) {
+                    fetch('/', {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        method: 'POST',
+                        body: JSON.stringify({
+                            'correct': word,
+                            'difficulty': difficulty
+                        })
+                    }).then(function (response) {
+                        return response.text();
+                    });
+                    document.getElementById('validate').innerHTML = "<span style='color: green;'><h4>Correct!</h4></span>";
+                    randomWord();
+                    document.getElementById("wordForm").reset();
+                } else {
+                    fetch('/', {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        method: 'POST',
+                        body: JSON.stringify({
+                            'incorrect': word,
+                            'difficulty': difficulty
+                        })
+                    }).then(function (response) {
+                        return response.text();
+                    });
+                    document.getElementById('validate').innerHTML = "<span style='color: red;'><h4>Incorrect!</h4></span>";
+                }
+            }
+            wordAutofocus();
+        }
+
+        function wordAutofocus() {
+             document.getElementById("word").focus();
+        }
+    </script>
+{% endblock %}

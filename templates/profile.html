@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block main %}
+    <h1>Overall {{ overall }}%</h1>
+   <div class="row">
+       <div class="col-lg-6 col-md-6 col-sm-12">
+            <table class="table table-borderless">
+                <tr class="table-success">
+                    <th colspan="3">Correct</th>
+                </tr>
+            </table>
+        </div>
+       <div class="col-lg-6 col-md-6 col-sm-12">
+            <table class="table table-borderless">
+                <tr class="table-danger">
+                    <th colspan="3">Incorrect</th>
+                </tr>
+            </table>
+        </div>
+   </div>
+   <div class="row">
+        <div class="col-lg-2 col-md-6 col-sm-12">
+            <table class="table table-borderless">
+                <tr class="table-secondary">
+                  <th>Beginner</th>
+                </tr>
+                {% for word in beginner_correct %}
+                <tr>
+                    <th><h6>{{ word }}</h6></th>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="col-lg-2 col-md-6 col-sm-12">
+            <table class="table table-borderless">
+                <tr class="table-secondary">
+                  <th>Intermediate</th>
+                </tr>
+                {% for word in intermediate_correct %}
+                <tr>
+                    <th><h6>{{ word }}</h6></th>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="col-lg-2 col-md-6 col-sm-12">
+            <table class="table table-borderless">
+                <tr class="table-secondary">
+                  <th>Advanced</th>
+                {% for word in advanced_correct %}
+                <tr>
+                    <th><h6>{{ word }}</h6></th>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="col-lg-2 col-md-6 col-sm-12">
+            <table class="table table-borderless">
+                <tr class="table-secondary">
+                  <th>Beginner</th>
+                {% for word in beginner_incorrect %}
+                <tr>
+                    <th><h6>{{ word }}</h6></th>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="col-lg-2 col-md-6 col-sm-12">
+            <table class="table table-borderless">
+                <tr class="table-secondary">
+                  <th>Intermediate</th>
+                {% for word in intermediate_incorrect %}
+                <tr>
+                    <th><h6>{{ word }}</h6></th>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="col-lg-2 col-md-6 col-sm-12">
+            <table class="table table-borderless">
+                <tr class="table-secondary">
+                  <th>Advanced</th>
+                {% for word in advanced_incorrect %}
+                <tr>
+                    <th><h6>{{ word }}</h6></th>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}
