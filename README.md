@@ -23,3 +23,9 @@ Run Command:
 	pip install -r requirements.txt
 	
 	flask run
+
+# What I used and learned
+* Flask 
+* Bootstrap
+* JavaScript
+* PostgreSQL
