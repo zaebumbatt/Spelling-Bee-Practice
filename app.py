@@ -2,12 +2,14 @@ import sqlite3
 from functools import wraps
 from tempfile import mkdtemp
 
+import redis
 from flask import (Flask, flash, json, redirect, render_template, request,
                    session)
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
 app = Flask(__name__)
+cache = redis.Redis(host='redis', port=6379)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 app.config['SESSION_FILE_DIR'] = mkdtemp()

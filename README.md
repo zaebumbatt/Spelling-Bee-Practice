@@ -1,31 +1,25 @@
 Spelling Bee Practice
 ==============
-Nikita Ustiuzhanin
+Web application for practice your spelling bee skills.
 
-Final project for CS50x 2020
+Final project for CS50x 2020.
 
-----------------------------
-_Overview:_
+# Run
+1. [Install Docker](https://www.docker.com/products/docker-desktop) and [Docker Compose](https://docs.docker.com/compose/install/) (if you have Linux).
+2. Clone repository https://github.com/zaebumbatt/Spelling-Bee-Practice.git
+3. Open Spelling-Bee-Practice folder and run ```docker-compose up -d```
+4. Go to http://localhost:8000/
 
-First you need to register. Then you start from choose a difficulty level: Beginner, Intermediate and Advanced. Use "Spell a word" button for hearing the word. Need to enter it correctly and press "Try". You will see result and it will be added in your profile statistic. You can check it on "Profile" page. If you were incorrect you can use "Hint". The word will change to next after correct input.
+# Functionality
+* User registration.
+* Words pronunciation.
+* Three levels of difficulty.
+* Profile page with statistics.
 
-Tried to make all logic on one page without reloading using JavaScript. Statistic saving in SQL database for every user. Flask framework as base. Bootstrap for templates.
-
-----------------------------
-_If you want to run it locally:_
-
-Go to project directory.
-
-Create virtual environment.
-
-Run Command:
-
-	pip install -r requirements.txt
-	
-	flask run
-
-# What I used and learned
-* Flask 
+# What I used
+* Python
+* Flask
 * Bootstrap
 * JavaScript
 * PostgreSQL
+* Docker
